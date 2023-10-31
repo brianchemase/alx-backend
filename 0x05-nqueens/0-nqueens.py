@@ -24,15 +24,14 @@ def is_safe(board, row, col, N):
 
 def solve_nqueens(N):
     if N < 4:
-        print("N must be at least 4")
-        sys.exit(1)
+        return []
 
     board = [[0 for _ in range(N)] for _ in range(N)]
     solutions = []
 
     def solve(col):
         if col == N:
-            solutions.append(board[:])
+            solutions.append([(i, board[i].index(1)) for i in range(N)])
             return
 
         for i in range(N):
@@ -43,19 +42,18 @@ def solve_nqueens(N):
 
     solve(0)
 
-    for solution in solutions:
-        for row in solution:
-            print("".join("Q" if x == 1 else "." for x in row))
-        print()
+    return solutions
 
-if __name__ == "__main__":
+if __name__ == "__main":
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
 
     try:
         N = int(sys.argv[1])
-        solve_nqueens(N)
+        solutions = solve_nqueens(N)
+        for solution in solutions:
+            print(solution)
     except ValueError:
         print("N must be a number")
         sys.exit(1)
